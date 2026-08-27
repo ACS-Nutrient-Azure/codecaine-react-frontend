@@ -9,17 +9,12 @@ import { MyPage } from "./pages/MyPage";
 import { AnalysisHistory } from "./pages/AnalysisHistory";
 import { Settings } from "./pages/Settings";
 import { Login } from "./pages/Login";
-import { Signup } from "./pages/Signup";
-import { ConfirmSignup } from "./pages/ConfirmSignup";
-import { ForgotPassword } from "./pages/ForgotPassword";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
 
 export const router = createBrowserRouter([
-  // 인증 없이 접근 가능
+  // 인증 없이 접근 가능. 회원가입/비밀번호 찾기는 Microsoft 로그인 화면
+  // 안에 이미 포함되어 있어서 별도 라우트가 필요 없음.
   { path: "/login", Component: Login },
-  { path: "/signup", Component: Signup },
-  { path: "/confirm-signup", Component: ConfirmSignup },
-  { path: "/forgot-password", Component: ForgotPassword },
 
   // 로그인 필요
   {

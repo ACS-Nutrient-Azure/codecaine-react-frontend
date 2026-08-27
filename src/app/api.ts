@@ -1,4 +1,4 @@
-import { getCurrentSession } from './auth/cognito';
+import { getIdToken } from './auth/entra';
 
 const API_BASE = "/api";
 
@@ -30,11 +30,10 @@ export function clearAuth() {
   localStorage.removeItem("cognito_id");
 }
 
-// 매 요청 전 Cognito 세션에서 유효한 토큰 확보
+// 매 요청 전 Entra 세션에서 유효한 토큰 확보
 async function getFreshToken(): Promise<string | null> {
-  const session = await getCurrentSession();
-  if (!session) return null;
-  const token = session.getIdToken().getJwtToken();
+  const token = await getIdToken();
+  if (!token) return null;
   setToken(token);
   return token;
 }
