@@ -44,13 +44,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     handleRedirect()
       .then((account) => {
+        // TODO(debug): 로그인 흐름 원인 파악되면 이 로그 제거
+        console.log("[auth] handleRedirect account:", account);
         if (!account) return;
         const claims = (account.idTokenClaims ?? {}) as Record<string, unknown>;
         if (claims.iat) localStorage.setItem("last_login_at", String(claims.iat));
 
         const authUser = toAuthUser(account);
+        console.log("[auth] toAuthUser result:", authUser);
         setCognitoId(authUser.cognitoId);
         setUser(authUser);
+      })
+      .catch((err) => {
+        console.error("[auth] handleRedirect failed:", err);
       })
       .finally(() => setLoading(false));
   }, []);
