@@ -30,11 +30,15 @@ function ensureInitialized(): Promise<void> {
 export async function handleRedirect(): Promise<AccountInfo | null> {
   await ensureInitialized();
   const result = await msalInstance.handleRedirectPromise();
+  // TODO(debug): 로그인 흐름 원인 파악되면 이 로그 제거
+  console.log("[entra] handleRedirectPromise result:", result);
+  console.log("[entra] current URL at check time:", window.location.href);
   if (result?.account) {
     msalInstance.setActiveAccount(result.account);
     return result.account;
   }
   const existing = msalInstance.getActiveAccount() ?? msalInstance.getAllAccounts()[0] ?? null;
+  console.log("[entra] fallback existing account:", existing, "all accounts:", msalInstance.getAllAccounts());
   if (existing) msalInstance.setActiveAccount(existing);
   return existing;
 }
